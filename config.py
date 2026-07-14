@@ -30,7 +30,7 @@ SHEET_MATCHERS = {
 }
 
 # Workbook and week detection
-WEEK_COLUMN_REGEX = r"(?i)wk\s*0*?(\d+)|wk(\d+)|wk\d+\s*p&l"
+WEEK_COLUMN_REGEX = r"(?i)wk[\s_]*0*?(\d+)|wk(\d+)|wk[\s_]*\d+[\s_]*p&l"
 
 # Paths
 BASE_DIR = Path(__file__).resolve().parent
