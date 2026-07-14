@@ -20,7 +20,7 @@ def format_percent(value: Optional[float]) -> str:
     """Format numeric values as percentages with two decimals."""
     if value is None or (isinstance(value, float) and math.isnan(value)):
         return "N/A"
-    return f"{value:.2f}%"
+    return f"{value * 100:.2f}%"
 
 
 def color_for_delta(value: Optional[float]) -> str:

@@ -142,31 +142,38 @@ def add_single_row_table(slide, columns: list[str], values: list[str], left, top
 
     table_shape = slide.shapes.add_table(rows=2, cols=len(columns), left=left, top=top, width=width, height=height)
     table = table_shape.table
-    header_color = _hex_to_rgb(cfg.COLOR_TABLE_HEADER)
+    header_color = RGBColor(220, 232, 246)
+    for col in table.columns:
+        col.width = int(width / len(columns))
+
     for idx, header in enumerate(columns):
         cell = table.cell(0, idx)
-        cell.text = DISPLAY_HEADER_MAP.get(header, header).replace("_", " ").title()
+        cell.text = DISPLAY_HEADER_MAP.get(header, header.replace("_", " ").title())
         cell.fill.solid()
         cell.fill.fore_color.rgb = header_color
         para = cell.text_frame.paragraphs[0]
         para.font.bold = True
-        para.font.size = Pt(9)
+        para.font.size = Pt(10)
+        para.font.color.rgb = _hex_to_rgb(cfg.HEADER_ACCENT_COLOR)
         para.alignment = PP_ALIGN.CENTER
-        cell.text_frame.margin_left = Pt(3)
-        cell.text_frame.margin_right = Pt(3)
-        cell.text_frame.margin_top = Pt(3)
-        cell.text_frame.margin_bottom = Pt(3)
+        cell.text_frame.margin_left = Pt(4)
+        cell.text_frame.margin_right = Pt(4)
+        cell.text_frame.margin_top = Pt(4)
+        cell.text_frame.margin_bottom = Pt(4)
 
     for idx, value in enumerate(values):
         cell = table.cell(1, idx)
         cell.text = value
+        cell.fill.solid()
+        cell.fill.fore_color.rgb = RGBColor(255, 255, 255)
         para = cell.text_frame.paragraphs[0]
         para.font.size = Pt(11)
+        para.font.color.rgb = _hex_to_rgb("#2C3E50")
         para.alignment = PP_ALIGN.CENTER
-        cell.text_frame.margin_left = Pt(3)
-        cell.text_frame.margin_right = Pt(3)
-        cell.text_frame.margin_top = Pt(3)
-        cell.text_frame.margin_bottom = Pt(3)
+        cell.text_frame.margin_left = Pt(4)
+        cell.text_frame.margin_right = Pt(4)
+        cell.text_frame.margin_top = Pt(4)
+        cell.text_frame.margin_bottom = Pt(4)
 
 
 def add_data_cards(slide, cards: list[Card], left, top, width, height, cols=4):
@@ -217,6 +224,11 @@ def add_panel_container(slide, left, top, width, height):
     return container
 
 
+def add_chart_image(slide, image_bytes: bytes, left, top, width, height):
+    stream = BytesIO(image_bytes)
+    slide.shapes.add_picture(stream, left, top, width=width, height=height)
+
+
 def add_panel_title(slide, text: str, left, top, width, height):
     shape = slide.shapes.add_textbox(left, top, width, height)
     frame = shape.text_frame
@@ -233,9 +245,9 @@ def add_panel_title(slide, text: str, left, top, width, height):
 def add_panel_table(slide, title: str, columns: list[str], values: list[str], left, top, width, height):
     add_panel_container(slide, left, top, width, height)
     title_height = Inches(0.28)
-    add_panel_title(slide, title, left + Inches(0.15), top + Inches(0.14), width - Inches(0.3), title_height)
-    table_top = top + title_height + Inches(0.14)
-    table_height = height - title_height - Inches(0.18)
+    add_panel_title(slide, title, left + Inches(0.15), top + Inches(0.12), width - Inches(0.3), title_height)
+    table_top = top + title_height + Inches(0.16)
+    table_height = height - title_height - Inches(0.2)
     add_single_row_table(slide, columns, values, left + Inches(0.1), table_top, width - Inches(0.2), table_height)
 
 
@@ -243,7 +255,9 @@ def add_panel_chart(slide, title: str, chart_png: bytes, left, top, width, heigh
     add_panel_container(slide, left, top, width, height)
     title_height = Inches(0.24)
     add_panel_title(slide, title, left + Inches(0.15), top + Inches(0.12), width - Inches(0.3), title_height)
-    add_chart_image(slide, chart_png, left + Inches(0.1), top + title_height + Inches(0.12), width - Inches(0.2), height - title_height - Inches(0.16))
+    image_top = top + title_height + Inches(0.16)
+    image_height = height - title_height - Inches(0.24)
+    add_chart_image(slide, chart_png, left + Inches(0.1), image_top, width - Inches(0.2), image_height)
 
 
 def add_cards_panel(slide, cards: list[Card], left, top, width, height):

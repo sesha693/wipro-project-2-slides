@@ -102,7 +102,7 @@ def _build_revenue_slide(row: pd.Series, summary: Optional[dict] = None):
         table_values=values,
         cards=cards,
         chart_png=chart_png,
-        table_title="Revenue Service Line View",
+        table_title="Revenue View",
         chart_title="Revenue Movement Matrix",
         callouts=callouts,
     )
@@ -150,7 +150,7 @@ def _build_nte_slide(row: pd.Series, summary: Optional[dict] = None):
         table_values=values,
         cards=cards,
         chart_png=chart_png,
-        table_title="NTE Service Line View",
+        table_title="NTE View",
         chart_title="NTE Movement Matrix",
         callouts=callouts,
     )
@@ -196,7 +196,7 @@ def _build_gm_slide(row: pd.Series, week_columns: list[str], summary: Optional[d
         table_values=values,
         cards=cards,
         chart_png=chart_png,
-        table_title="GM Service Line View",
+        table_title="GM View",
         chart_title="GM Movement Matrix",
         callouts=callouts,
     )
